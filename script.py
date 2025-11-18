@@ -18,53 +18,34 @@ async def steam_login(inf):
             pyautogui.click(x=x_pass+win.left, y=y_pass+win.top)
             await asyncio.sleep(0.3)
 
-            for i in inf:
-                pyautogui.write(i)
+            if inf == '1':
+                for i in inf:
+                    pyautogui.write(i)
+                    await asyncio.sleep(0.1)
+
+            elif inf == '2':
+                pyperclip.copy(inf)
                 await asyncio.sleep(0.1)
 
+                pyautogui.write(pyperclip.paste())
+                await asyncio.sleep(0.3)
+
             pyautogui.click(x=x_ent + win.left, y=y_ent + win.top)
 
-            await asyncio.sleep(3)
+            await asyncio.sleep(5)
             print('Вход выполнен!')
 
         except:
             print('Ожидаю окно ...')
             await asyncio.sleep(1)
 
-
-async def steam_login_alt(inf: str):
-    while True:
-        try:
-            win = pygetwindow.getWindowsWithTitle('Войдите в аккаунт снова')[0]
-            win.activate()
-
-            pyautogui.click(x=x_pass+win.left, y=y_pass+win.top)
-            await asyncio.sleep(0.3)
-
-            pyperclip.copy(inf)
-            await asyncio.sleep(0.1)
-
-            pyautogui.write(pyperclip.paste())
-            await asyncio.sleep(0.3)
-
-            pyautogui.click(x=x_ent + win.left, y=y_ent + win.top)
-
-            await asyncio.sleep(3)
-            print('Вход выполнен!')
-
-        except:
-            print('Ожидаю окно ...')
-            await asyncio.sleep(1)
 
 async def main():
+    inf = input('Вставьте пароль для автовхода: ')
     while True:
-        inf = input('Вставьте пароль для автовхода: ')
         wei = input('Выберите способ автоматизации входа: ')
-        if wei == '1':
+        if wei == '1' or wei == '2':
             await steam_login(inf)
-            break
-        elif wei == '2':
-            await steam_login_alt(inf)
             break
         else:
             print('Неверное значение.')
